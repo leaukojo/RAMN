@@ -111,7 +111,11 @@ bool FDCAN_SetBittiming(FDCAN_Instance *fdcan_data, uint16_t nbrp, uint8_t phase
 {
 	//TODO: better implementation
 	uint32_t baudrate = (48000000U)/(nbrp * (1U + phase_seg1 + phase_seg2));
-	if(RAMN_FDCAN_UpdateBaudrate(baudrate) == RAMN_OK) return true;
+	if(RAMN_FDCAN_UpdateBaudrate(baudrate) == RAMN_OK)
+	{
+		RAMN_FDCAN_ResetPeripheral();
+		return true;
+	}
 	return false;
 	/*
 	 * 	const struct gs_device_bt_const *btconst = USBD_GSUSB_Get_Bdconst();
